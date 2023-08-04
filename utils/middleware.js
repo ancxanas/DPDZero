@@ -52,6 +52,19 @@ const errorHandler = (err, req, res, next) => {
       message:
         "The provided username is already taken. Please choose a different username.",
     })
+  } else if (err.message === "MISSING_FIELDS") {
+    return res.status(400).json({
+      status: "error",
+      code: "MISSING_FIELDS",
+      message: "Missing fields. Please provide both username and password.",
+    })
+  } else if (err.message === "INVALID_CREDENTIALS") {
+    return res.status(400).json({
+      status: "error",
+      code: "INVALID_CREDENTIALS",
+      message:
+        "Invalid credentials. The provided username or password is incorrect",
+    })
   } else {
     res.status(500).json({
       status: "error",

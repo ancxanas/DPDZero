@@ -1,11 +1,7 @@
 const usersRouter = require("express").Router()
 const prisma = require("../db/prisma")
 const bcrypt = require("bcrypt")
-
-const checkPassword = (password) => {
-  const regex = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,21}$/
-  return regex.test(password)
-}
+const checkPassword = require("../utils/helper").checkPassword
 
 usersRouter.post("/", async (req, res) => {
   const { username, email, password, full_name, age, gender } = req.body
