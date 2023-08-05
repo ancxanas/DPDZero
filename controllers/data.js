@@ -5,13 +5,13 @@ const userExtractor = require("../utils/middleware").userExtractor
 dataRouter.get("/:key", userExtractor, async (req, res) => {
   const key = req.params.key
 
-  const found = await prisma.data.findUnique({
+  const findData = await prisma.data.findUnique({
     where: {
       key,
     },
   })
 
-  if (!found) {
+  if (!findData) {
     throw Error("KEY_NOT_FOUND")
   }
 
@@ -50,6 +50,45 @@ dataRouter.post("/", userExtractor, async (req, res) => {
   }
 
   return res.status(201).json(successResponse)
+})
+
+dataRouter.put("/:key", userExtractor, async (req, res) => {
+  const key = req.params.key
+
+  const value = req.body.value
+
+  await prisma.data.update({
+    where: {
+      key,
+    },
+    data: {
+      value,
+    },
+  })
+
+  const successResponse = {
+    status: "success",
+    message: "Data updated successfully",
+  }
+
+  res.json(successResponse)
+})
+
+dataRouter.delete("/:key", userExtractor, async (req, res) => {
+  const key = req.params.key
+
+  await prisma.data.delete({
+    where: {
+      key,
+    },
+  })
+
+  const successResponse = {
+    status: "success",
+    message: "Data deleted successfully",
+  }
+
+  return res.status(200).json(successResponse)
 })
 
 module.exports = dataRouter
