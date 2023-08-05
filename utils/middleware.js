@@ -147,7 +147,8 @@ const errorHandler = (err, req, res, next) => {
     })
   } else if (
     err.name === "JsonWebTokenError" ||
-    err.message === "INVALID_TOKEN"
+    err.message === "INVALID_TOKEN" ||
+    err.name === "TokenExpiredError"
   ) {
     return res.status(401).json({
       status: "error",
@@ -156,6 +157,26 @@ const errorHandler = (err, req, res, next) => {
     })
   } else if (err.message === "KEY_NOT_FOUND") {
     return res.status(404).json({
+      status: "error",
+      code: "KEY_NOT_FOUND",
+      message: "The provided key does not exist in the database.",
+    })
+  } else if (
+    err.name === "PrismaClientKnownRequestError" &&
+    err.code === "P2025" &&
+    err.meta.cause === "Record to update not found."
+  ) {
+    return res.json({
+      status: "error",
+      code: "KEY_NOT_FOUND",
+      message: "The provided key does not exist in the database.",
+    })
+  } else if (
+    err.name === "PrismaClientKnownRequestError" &&
+    err.code === "P2025" &&
+    err.meta.cause === "Record to delete does not exist."
+  ) {
+    return res.json({
       status: "error",
       code: "KEY_NOT_FOUND",
       message: "The provided key does not exist in the database.",
