@@ -38,6 +38,8 @@ Install DPDzero-assignment with npm
     
 ## Run Locally
 
+In order to run the project locally, you need to have Nodejs and PostgresSQL installed in your system.
+
 Clone the project
 
 ```bash
@@ -58,8 +60,15 @@ Install dependencies
 
 Setup .env
 
-```
-PORT  POSTGRES_URI  SECRET
+create a .env file in the root directory and add the following environment variables
+
+```PORT``` ```POSTGRES_URI```  ```SECRET```
+
+Configure Prisma
+
+```bash
+  npx prisma generate
+  npx prisma migrate dev
 ```
 
 Start the server
