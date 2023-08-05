@@ -16,7 +16,7 @@ const userExtractor = async (req, res, next) => {
   const decodedToken = jwt.verify(req.token, SECRET)
 
   if (!decodedToken.id) {
-    throw new Error("INVALID_TOKEN")
+    throw Error("INVALID_TOKEN")
   }
 
   const user = await prisma.user.findUnique({
@@ -153,6 +153,12 @@ const errorHandler = (err, req, res, next) => {
       status: "error",
       code: "INVALID_TOKEN",
       message: "Invalid access token provided",
+    })
+  } else if (err.message === "KEY_NOT_FOUND") {
+    return res.status(404).json({
+      status: "error",
+      code: "KEY_NOT_FOUND",
+      message: "The provided key does not exist in the database.",
     })
   } else {
     res.status(500).json({
