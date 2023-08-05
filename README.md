@@ -13,7 +13,7 @@ This project is a backend system that implements the API's for user registration
  - **Nodejs** : A runtime environment that executes JavaScript code outside the browser.
 ## DB Schema
 
-![Alt Schema]('./Schema.png')
+![Schema](https://github.com/ancxanas/DPDZero/blob/main/Schema.png)
 
 ## Environment Variables
 
