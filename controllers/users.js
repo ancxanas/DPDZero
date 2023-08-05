@@ -6,7 +6,11 @@ const checkPassword = require("../utils/helper").checkPassword
 usersRouter.post("/", async (req, res) => {
   const { username, email, password, full_name, age, gender } = req.body
 
-  if (!password || !checkPassword(password)) {
+  if (!email || !password || !full_name || !username) {
+    throw Error("INVALID_REQUEST")
+  }
+
+  if (!checkPassword(password)) {
     throw Error("INVALID_PASSWORD")
   }
 
@@ -14,7 +18,7 @@ usersRouter.post("/", async (req, res) => {
     throw Error("INVALID_AGE")
   }
 
-  if (!gender) {
+  if (!gender || gender === "") {
     throw Error("GENDER_REQUIRED")
   }
 
